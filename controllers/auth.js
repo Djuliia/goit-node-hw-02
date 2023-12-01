@@ -48,7 +48,7 @@ const register = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { verificationToken } = req.params;
-  const user = await User.findOne(verificationToken);
+  const user = await User.findOne({ verificationToken });
   if (!user) {
     throw createError(404, "Not found");
   }
@@ -68,7 +68,7 @@ const resendVerifyEmail = async (req, res) => {
   if (!user) {
     throw createError(400, "Not found");
   }
-  if (!user.verify) {
+  if (user.verify) {
     throw createError(400, "Verification has already been passed");
   }
 
